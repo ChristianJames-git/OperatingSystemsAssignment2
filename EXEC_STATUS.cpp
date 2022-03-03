@@ -1,6 +1,6 @@
 #include "EXEC_STATUS.h"
 
-EXEC_STATUS::EXEC_STATUS(int marks, int hInterval, int minWords) {
+EXEC_STATUS::EXEC_STATUS(int marks, int hInterval, int minWords, const char* filenames[]) {
     if (marks == -1)
         numOfProgressMarks = DEFAULT_NUMOF_MARKS;
     else
@@ -13,4 +13,15 @@ EXEC_STATUS::EXEC_STATUS(int marks, int hInterval, int minWords) {
         minNumOfWordsWithAPrefixForPrinting = DEFAULT_MINNUM_OFWORDS_WITHAPREFIX;
     else
         minNumOfWordsWithAPrefixForPrinting = minWords;
+
+    dictRootNode = new dictentry();
+
+    filePath[DICTSRCFILEINDEX] = filenames[DICTSRCFILEINDEX];
+    filePath[TESTFILEINDEX] = filenames[TESTFILEINDEX];
+
+    struct stat st;
+    stat(filePath[DICTSRCFILEINDEX], &st);
+    totalNumOfCharsInFile[DICTSRCFILEINDEX] = st.st_size;
+    stat(filePath[TESTFILEINDEX], &st);
+    totalNumOfCharsInFile[TESTFILEINDEX] = st.st_size;
 }

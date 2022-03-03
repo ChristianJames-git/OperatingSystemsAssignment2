@@ -1,4 +1,5 @@
 #include "dictentry.h"
+#include <sys/stat.h>
 
 #ifndef OPERATINGSYSTEMSASSIGNMENT2_EXEC_STATUS_H
 #define OPERATINGSYSTEMSASSIGNMENT2_EXEC_STATUS_H
@@ -22,7 +23,7 @@ writing to the output */
 
 class EXEC_STATUS {
 public:
-    EXEC_STATUS(int, int, int);
+    EXEC_STATUS(int, int, int, const char*[]);
     /**
     * root node of the dictionary tree
     */

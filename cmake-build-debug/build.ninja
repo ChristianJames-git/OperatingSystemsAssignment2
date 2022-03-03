@@ -79,6 +79,12 @@ build CMakeFiles/OperatingSystemsAssignment2.dir/dictentry.cpp.obj: CXX_COMPILER
   OBJECT_DIR = CMakeFiles\OperatingSystemsAssignment2.dir
   OBJECT_FILE_DIR = CMakeFiles\OperatingSystemsAssignment2.dir
 
+build CMakeFiles/OperatingSystemsAssignment2.dir/threadHelper.cpp.obj: CXX_COMPILER__OperatingSystemsAssignment2_Debug D$:/School/College/6th$ Semester/CS-480/OperatingSystemsAssignment2/threadHelper.cpp || cmake_object_order_depends_target_OperatingSystemsAssignment2
+  DEP_FILE = CMakeFiles\OperatingSystemsAssignment2.dir\threadHelper.cpp.obj.d
+  FLAGS = -g -std=gnu++11
+  OBJECT_DIR = CMakeFiles\OperatingSystemsAssignment2.dir
+  OBJECT_FILE_DIR = CMakeFiles\OperatingSystemsAssignment2.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target OperatingSystemsAssignment2
@@ -87,7 +93,7 @@ build CMakeFiles/OperatingSystemsAssignment2.dir/dictentry.cpp.obj: CXX_COMPILER
 #############################################
 # Link the executable OperatingSystemsAssignment2.exe
 
-build OperatingSystemsAssignment2.exe: CXX_EXECUTABLE_LINKER__OperatingSystemsAssignment2_Debug CMakeFiles/OperatingSystemsAssignment2.dir/main.cpp.obj CMakeFiles/OperatingSystemsAssignment2.dir/populatetree.cpp.obj CMakeFiles/OperatingSystemsAssignment2.dir/countwords.cpp.obj CMakeFiles/OperatingSystemsAssignment2.dir/EXEC_STATUS.cpp.obj CMakeFiles/OperatingSystemsAssignment2.dir/dictentry.cpp.obj
+build OperatingSystemsAssignment2.exe: CXX_EXECUTABLE_LINKER__OperatingSystemsAssignment2_Debug CMakeFiles/OperatingSystemsAssignment2.dir/main.cpp.obj CMakeFiles/OperatingSystemsAssignment2.dir/populatetree.cpp.obj CMakeFiles/OperatingSystemsAssignment2.dir/countwords.cpp.obj CMakeFiles/OperatingSystemsAssignment2.dir/EXEC_STATUS.cpp.obj CMakeFiles/OperatingSystemsAssignment2.dir/dictentry.cpp.obj CMakeFiles/OperatingSystemsAssignment2.dir/threadHelper.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\OperatingSystemsAssignment2.dir
