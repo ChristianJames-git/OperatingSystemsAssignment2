@@ -1,8 +1,8 @@
-#include "dictentry.h"
-#include <sys/stat.h>
-
 #ifndef OPERATINGSYSTEMSASSIGNMENT2_EXEC_STATUS_H
 #define OPERATINGSYSTEMSASSIGNMENT2_EXEC_STATUS_H
+
+#include "dictentry.h"
+#include <sys/stat.h>
 
 #define NUMOFFILES 2
 #define DICTSRCFILEINDEX 0

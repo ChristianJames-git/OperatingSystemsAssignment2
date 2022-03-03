@@ -1,8 +1,9 @@
-#include "EXEC_STATUS.h"
-#include "dictentry.h"
-
 #ifndef OPERATINGSYSTEMSASSIGNMENT2_POPULATETREE_H
 #define OPERATINGSYSTEMSASSIGNMENT2_POPULATETREE_H
+
+#include "EXEC_STATUS.h"
+#include "dictentry.h"
+#include "threadHelper.h"
 
 class populatetree {
 public:
@@ -11,7 +12,6 @@ private:
     ifstream inStream;
     void openFile(const char *file);
     void closeIn();
-    void readIn(vector<string> *storage);
     void populateTree();
     static int ASCIItoIndex(char);
     bool add(const char *, const char *);
