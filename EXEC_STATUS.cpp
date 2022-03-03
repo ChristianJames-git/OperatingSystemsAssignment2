@@ -19,7 +19,7 @@ EXEC_STATUS::EXEC_STATUS(int marks, int hInterval, int minWords, const char* fil
     filePath[DICTSRCFILEINDEX] = filenames[DICTSRCFILEINDEX];
     filePath[TESTFILEINDEX] = filenames[TESTFILEINDEX];
 
-    struct stat st;
+    struct stat st{};
     stat(filePath[DICTSRCFILEINDEX], &st);
     totalNumOfCharsInFile[DICTSRCFILEINDEX] = st.st_size;
     numOfCharsProcessedFromFile[DICTSRCFILEINDEX] = new long(0);

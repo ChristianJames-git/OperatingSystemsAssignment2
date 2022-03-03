@@ -6,7 +6,7 @@
 
 class populatetree {
 public:
-    explicit populatetree(dictentry*);
+    void threadMain(void*);
     void readDict(const char *dictionaryFile);
     int add(const char *, const char *);
     vector<string> dictionaryStore;

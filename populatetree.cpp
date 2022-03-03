@@ -1,8 +1,34 @@
 #include "populatetree.h"
 
-populatetree::populatetree(dictentry *rootNode) {
-    root = rootNode;
+void populatetree::threadMain(void * VoidPtr) {
+    EXEC_STATUS *sharedData;
+    sharedData = (EXEC_STATUS *) VoidPtr;
+    while (sharedData->numOfCharsProcessedFromFile[DICTSRCFILEINDEX] == nullptr) {
+
+    }
+
+    root = sharedData->dictRootNode;
     prevNode = root;
+    readDict(sharedData->filePath[DICTSRCFILEINDEX]);
+
+    for (auto & i : dictionaryStore) {
+        long temp = add(i.c_str(), i.c_str());
+        if (temp == -1) {
+            cout << "failed to insert word" << endl;
+            exit(EXIT_FAILURE);
+        } else {
+            *sharedData->numOfCharsProcessedFromFile[DICTSRCFILEINDEX] += temp;
+            sharedData->wordCountInFile[DICTSRCFILEINDEX]++;
+        }
+    }
+    sharedData->taskCompleted[DICTSRCFILEINDEX] = true;
+    /* If we wanted to return something, we would return a pointer
+     * to the data that we wanted to return.
+     *
+     * Instead of simply using return, we could also call
+     * pthread_exit.
+     */
+    pthread_exit(sharedData);
 }
 
 void populatetree::readDict(const char *dictFile) { //read in dictionary file to vector and call populateTree

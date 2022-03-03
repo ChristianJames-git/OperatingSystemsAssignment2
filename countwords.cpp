@@ -1,8 +1,39 @@
 #include "countwords.h"
 
-countwords::countwords(dictentry rootNode) {
-    root = rootNode;
+void countwords::threadMain(void * VoidPtr) {
+    EXEC_STATUS *sharedData;
+    sharedData = (EXEC_STATUS *) VoidPtr;
+
+    while (!sharedData->taskCompleted[DICTSRCFILEINDEX]) {
+
+    }
+
+    root = *sharedData->dictRootNode;
     prevNode = &root;
+    readWords(sharedData->filePath[TESTFILEINDEX]);
+
+    for (auto & i : testfileStore) {
+        *sharedData->numOfCharsProcessedFromFile[TESTFILEINDEX] += (long)(i.length() + 1);
+        int temp = 0;
+        char *word = strtok((char *)i.c_str(), delimiters); //separate first word by using delimiters
+        while (word != nullptr) { //loop through each word in line
+            temp++;
+            searchCount(word, sharedData->minNumOfWordsWithAPrefixForPrinting);
+            word = strtok(NULL, delimiters); //next word
+        }
+        sharedData->wordCountInFile[TESTFILEINDEX] += temp;
+    }
+    closeOut();
+
+    sharedData->taskCompleted[TESTFILEINDEX] = true;
+
+    /* If we wanted to return something, we would return a pointer
+     * to the data that we wanted to return.
+     *
+     * Instead of simply using return, we could also call
+     * pthread_exit.
+     */
+    pthread_exit(sharedData);
 }
 
 void countwords::readWords(const char *wordsFile) { //reads in each line of words, splits into words and calls searchCount on each word

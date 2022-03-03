@@ -2,73 +2,20 @@
 #include "populatetree.h"
 #include "countwords.h"
 #include <pthread.h>
-#include <cstring>
+
+using namespace std;
 
 extern "C" void * populateTreeThread( void * VoidPtr )
 {
-    EXEC_STATUS *sharedData;
-    sharedData = (EXEC_STATUS *) VoidPtr;
-    while (sharedData->numOfCharsProcessedFromFile[DICTSRCFILEINDEX] == nullptr) {
-
-    }
-
-    auto *popTree = new populatetree(sharedData->dictRootNode);
-    popTree->readDict(sharedData->filePath[DICTSRCFILEINDEX]);
-
-    for (auto & i : popTree->dictionaryStore) {
-        long temp = popTree->add(i.c_str(), i.c_str());
-        if (temp == -1) {
-            cout << "failed to insert word" << endl;
-            exit(EXIT_FAILURE);
-        } else {
-            *sharedData->numOfCharsProcessedFromFile[DICTSRCFILEINDEX] += temp;
-            sharedData->wordCountInFile[DICTSRCFILEINDEX]++;
-        }
-    }
-    sharedData->taskCompleted[DICTSRCFILEINDEX] = true;
-    /* If we wanted to return something, we would return a pointer
-     * to the data that we wanted to return.
-     *
-     * Instead of simply using return, we could also call
-     * pthread_exit.
-     */
-    pthread_exit(sharedData);
+    auto *popTree = new populatetree();
+    popTree->threadMain(VoidPtr);
     return nullptr;
 }
 
 extern "C" void * countWordsThread( void * VoidPtr )
 {
-    EXEC_STATUS *sharedData;
-    sharedData = (EXEC_STATUS *) VoidPtr;
-
-    while (!sharedData->taskCompleted[DICTSRCFILEINDEX]) {
-
-    }
-    auto *countWords = new countwords(*sharedData->dictRootNode);
-    countWords->readWords(sharedData->filePath[TESTFILEINDEX]);
-
-    for (auto & i : countWords->testfileStore) {
-        *sharedData->numOfCharsProcessedFromFile[TESTFILEINDEX] += (long)(i.length() + 1);
-        int temp = 0;
-        char *word = strtok((char *)i.c_str(), countWords->delimiters); //separate first word by using delimiters
-        while (word != nullptr) { //loop through each word in line
-            temp++;
-            countWords->searchCount(word, sharedData->minNumOfWordsWithAPrefixForPrinting);
-            word = strtok(NULL, countWords->delimiters); //next word
-        }
-        sharedData->wordCountInFile[TESTFILEINDEX] += temp;
-    }
-    countWords->closeOut();
-
-    sharedData->taskCompleted[TESTFILEINDEX] = true;
-
-    /* If we wanted to return something, we would return a pointer
-     * to the data that we wanted to return.
-     *
-     * Instead of simply using return, we could also call
-     * pthread_exit.
-     */
-    pthread_exit(sharedData);
+    auto *countWords = new countwords();
+    countWords->threadMain(VoidPtr);
     return nullptr;
 }
 
@@ -120,7 +67,7 @@ int main(int argc, char **argv) {
     long currProgressMarks = 0, maxProgressMarks;
     char toOutput;
     while (currProgressMarks < sharedData->numOfProgressMarks-1) {
-        maxProgressMarks = sharedData->numOfProgressMarks * ((double) *sharedData->numOfCharsProcessedFromFile[DICTSRCFILEINDEX] / (double) sharedData->totalNumOfCharsInFile[DICTSRCFILEINDEX]);
+        maxProgressMarks = (long)(sharedData->numOfProgressMarks * ((double) *sharedData->numOfCharsProcessedFromFile[DICTSRCFILEINDEX] / (double) sharedData->totalNumOfCharsInFile[DICTSRCFILEINDEX]));
         while (currProgressMarks < maxProgressMarks && currProgressMarks < sharedData->numOfProgressMarks-1) {
             toOutput = '-';
             if ((currProgressMarks+1) % sharedData->hashmarkInterval == 0)
@@ -140,7 +87,7 @@ int main(int argc, char **argv) {
 
     currProgressMarks = 0;
     while (currProgressMarks < sharedData->numOfProgressMarks-1) {
-        maxProgressMarks = sharedData->numOfProgressMarks * ((double) *sharedData->numOfCharsProcessedFromFile[TESTFILEINDEX] / (double) sharedData->totalNumOfCharsInFile[TESTFILEINDEX]);
+        maxProgressMarks = (long)(sharedData->numOfProgressMarks * ((double) *sharedData->numOfCharsProcessedFromFile[TESTFILEINDEX] / (double) sharedData->totalNumOfCharsInFile[TESTFILEINDEX]));
         while (currProgressMarks < maxProgressMarks) {
             toOutput = '-';
             if ((currProgressMarks+1) % sharedData->hashmarkInterval == 0)

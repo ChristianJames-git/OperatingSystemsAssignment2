@@ -1,5 +1,6 @@
 #include "EXEC_STATUS.h"
 #include "dictentry.h"
+#include <cstring>
 
 #ifndef OPERATINGSYSTEMSASSIGNMENT2_COUNTWORDS_H
 #define OPERATINGSYSTEMSASSIGNMENT2_COUNTWORDS_H
@@ -7,7 +8,7 @@
 
 class countwords {
 public:
-    explicit countwords(dictentry);
+    void threadMain(void*);
     void readWords(const char *wordsFile);
     vector<string> testfileStore;
     const char *delimiters = "\n\r !\"#$%&()*+,-./0123456789:;<=>?@[\\]^_`{|}~"; //delimiters string
