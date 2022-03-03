@@ -19,7 +19,7 @@ void countwords::threadMain(void * VoidPtr) { //thread controller
         while (word != nullptr) { //loop through each word in line
             temp++;
             searchCount(word, sharedData->minNumOfWordsWithAPrefixForPrinting); //search and print each word
-            word = strtok(NULL, delimiters); //next word
+            word = strtok(nullptr, delimiters); //next word
         }
         sharedData->wordCountInFile[TESTFILEINDEX] += temp; //increment word count by number of words in the line
     }
