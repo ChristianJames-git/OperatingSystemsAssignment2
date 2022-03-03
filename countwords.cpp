@@ -8,11 +8,7 @@ void countwords::readWords(const char *wordsFile) { //reads in each line of word
     openFile(wordsFile); //open file
     string line;
     while (getline(inStream, line)) { //read in each line
-        char *word = strtok((char *)line.c_str(), delimiters); //separate first word by using delimiters
-        while (word != nullptr) { //loop through each word in line
-            searchCount(word); //count and output for each word
-            word = strtok(NULL, delimiters); //next word
-        }
+        testfileStore.emplace_back(line);
     }
     closeIn(); //close file
 }

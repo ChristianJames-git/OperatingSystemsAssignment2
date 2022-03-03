@@ -37,15 +37,34 @@ extern "C" void * countWordsThread( void * VoidPtr )
     EXEC_STATUS *sharedData;
     sharedData = (EXEC_STATUS *) VoidPtr;
 
+    while (!sharedData->taskCompleted[DICTSRCFILEINDEX]) {
+
+    }
     auto *countWords = new countwords(*sharedData->dictRootNode);
     countWords->readWords(sharedData->filePath[TESTFILEINDEX]);
+
+    for (auto & i : countWords->testfileStore) {
+        sharedData->numOfCharsProcessedFromFile[TESTFILEINDEX] += i.length() + 1;
+        int temp = 0;
+        char *word = strtok((char *)i.c_str(), countWords->delimiters); //separate first word by using delimiters
+        while (word != nullptr) { //loop through each word in line
+            temp++;
+            countWords->searchCount(word);
+            word = strtok(nullptr, countWords->delimiters); //next word
+        }
+        sharedData->wordCountInFile[TESTFILEINDEX] += temp;
+    }
+
+    sharedData->taskCompleted[TESTFILEINDEX] = true;
+
     /* If we wanted to return something, we would return a pointer
      * to the data that we wanted to return.
      *
      * Instead of simply using return, we could also call
      * pthread_exit.
      */
-    return sharedData;
+    pthread_exit(sharedData);
+    return nullptr;
 }
 
 int main(int argc, char **argv) {
@@ -90,6 +109,10 @@ int main(int argc, char **argv) {
 
     pthread_create(&populatetree, &pthread_attributes, &populateTreeThread, sharedData);
     pthread_create(&countwords, &pthread_attributes, &countWordsThread, sharedData);
+
+    while (!sharedData->taskCompleted[TESTFILEINDEX]) {
+        
+    }
 
     delete(&sharedData);
 }

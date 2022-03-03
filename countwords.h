@@ -9,17 +9,18 @@ class countwords {
 public:
     explicit countwords(dictentry);
     void readWords(const char *wordsFile);
+    vector<string> testfileStore;
+    const char *delimiters = "\n\r !\"#$%&()*+,-./0123456789:;<=>?@[\\]^_`{|}~"; //delimiters string
+    void searchCount(const string&);
 private:
     ifstream inStream;
     void openFile(const char *file);
     void closeIn();
-    void searchCount(const string&);
     dictentry* findEndingNodeOfAStr(const char *remainingStr, const char *strBeingSearched);
     void countWordsStartingFromANode(dictentry *currNode, int &count);
     static int ASCIItoIndex(char);
     dictentry *prevNode{}; //temp node
     dictentry root;
-    const char *delimiters = "\n\r !\"#$%&()*+,-./0123456789:;<=>?@[\\]^_`{|}~"; //delimiters string
 };
 
 
