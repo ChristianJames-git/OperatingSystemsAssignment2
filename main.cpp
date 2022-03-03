@@ -37,6 +37,8 @@ extern "C" void * countWordsThread( void * VoidPtr )
     EXEC_STATUS *sharedData;
     sharedData = (EXEC_STATUS *) VoidPtr;
 
+    auto *countWords = new countwords(*sharedData->dictRootNode);
+    countWords->readWords(sharedData->filePath[TESTFILEINDEX]);
     /* If we wanted to return something, we would return a pointer
      * to the data that we wanted to return.
      *
