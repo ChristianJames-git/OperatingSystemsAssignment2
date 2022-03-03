@@ -22,6 +22,8 @@ EXEC_STATUS::EXEC_STATUS(int marks, int hInterval, int minWords, const char* fil
     struct stat st;
     stat(filePath[DICTSRCFILEINDEX], &st);
     totalNumOfCharsInFile[DICTSRCFILEINDEX] = st.st_size;
+    numOfCharsProcessedFromFile[DICTSRCFILEINDEX] = new long(0);
     stat(filePath[TESTFILEINDEX], &st);
     totalNumOfCharsInFile[TESTFILEINDEX] = st.st_size;
+    numOfCharsProcessedFromFile[TESTFILEINDEX] = new long(0);
 }

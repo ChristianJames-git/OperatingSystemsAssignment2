@@ -2,6 +2,7 @@
 
 countwords::countwords(dictentry rootNode) {
     root = rootNode;
+    prevNode = &root;
 }
 
 void countwords::readWords(const char *wordsFile) { //reads in each line of words, splits into words and calls searchCount on each word
@@ -11,14 +12,16 @@ void countwords::readWords(const char *wordsFile) { //reads in each line of word
         testfileStore.emplace_back(line);
     }
     closeIn(); //close file
+    openOut();
 }
 
-void countwords::searchCount(const string& str) { //uses helper methods and outputs count
+void countwords::searchCount(const string& str, int minInstances) { //uses helper methods and outputs count
     dictentry *temp = findEndingNodeOfAStr(str.c_str(), str.c_str()); //find end of string
     int count = 0;
     if (temp != nullptr)
         countWordsStartingFromANode(temp, count); //count words that start with string
-    cout << str << " " << count << endl; //output
+    if (count >= minInstances)
+        outStream << str << " " << count << endl; //output
 }
 
 dictentry *countwords::findEndingNodeOfAStr(const char *remainingStr, const char *strBeingSearched) { //finds node at end of string or null if not in the dictionary
@@ -57,6 +60,23 @@ void countwords::closeIn() { //close file helper method
         inStream.close();
     else {
         cout << "Input not open" << endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+void countwords::openOut() {
+    outStream.open("countwords_output.txt");
+    if (!outStream.is_open()) {
+        cout << "output not created" << endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+void countwords::closeOut() {
+    if (outStream.is_open())
+        outStream.close();
+    else {
+        cout << "Output not open" << endl;
         exit(EXIT_FAILURE);
     }
 }

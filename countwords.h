@@ -11,10 +11,13 @@ public:
     void readWords(const char *wordsFile);
     vector<string> testfileStore;
     const char *delimiters = "\n\r !\"#$%&()*+,-./0123456789:;<=>?@[\\]^_`{|}~"; //delimiters string
-    void searchCount(const string&);
+    void searchCount(const string&, int);
+    void closeOut();
 private:
     ifstream inStream;
+    ofstream outStream;
     void openFile(const char *file);
+    void openOut();
     void closeIn();
     dictentry* findEndingNodeOfAStr(const char *remainingStr, const char *strBeingSearched);
     void countWordsStartingFromANode(dictentry *currNode, int &count);

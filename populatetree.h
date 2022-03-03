@@ -3,7 +3,6 @@
 
 #include "EXEC_STATUS.h"
 #include "dictentry.h"
-#include "threadHelper.h"
 
 class populatetree {
 public:
@@ -16,7 +15,7 @@ private:
     void openFile(const char *file);
     void closeIn();
     static int ASCIItoIndex(char);
-    dictentry *prevNode{}; //temp node
+    dictentry *prevNode; //temp node
     dictentry root;
 };
 #endif //OPERATINGSYSTEMSASSIGNMENT2_POPULATETREE_H

@@ -2,6 +2,7 @@
 
 populatetree::populatetree(dictentry rootNode) {
     root = rootNode;
+    prevNode = &root;
 }
 
 void populatetree::readDict(const char *dictFile) { //read in dictionary file to vector and call populateTree
@@ -34,7 +35,7 @@ void populatetree::closeIn() { //close file helper method
     }
 }
 
-int populatetree::add(const char *remainingChars, const char *wordBeingInserted) { //adds word to dictionary tree NOLINT(misc-no-recursion)
+int populatetree::add(const char *remainingChars, const char *wordBeingInserted) { //adds word to dictionary tree
     int nextIndex = ASCIItoIndex(remainingChars++[0]); //convert current char to ASCII and increment to next char
     if (prevNode->next[nextIndex] == nullptr) { //create new node if missing
         prevNode->next[nextIndex] = new dictentry();
