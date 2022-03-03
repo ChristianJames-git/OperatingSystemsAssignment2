@@ -7,15 +7,16 @@
 
 class populatetree {
 public:
+    explicit populatetree(dictentry);
     void readDict(const char *dictionaryFile);
+    int add(const char *, const char *);
+    vector<string> dictionaryStore;
 private:
     ifstream inStream;
     void openFile(const char *file);
     void closeIn();
-    void populateTree();
     static int ASCIItoIndex(char);
-    bool add(const char *, const char *);
-    vector<string> dictionaryStore;
-    dictentry *prevNode; //temp node
+    dictentry *prevNode{}; //temp node
+    dictentry root;
 };
 #endif //OPERATINGSYSTEMSASSIGNMENT2_POPULATETREE_H

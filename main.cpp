@@ -9,9 +9,20 @@ extern "C" void * populateTreeThread( void * VoidPtr )
     EXEC_STATUS *sharedData;
     sharedData = (EXEC_STATUS *) VoidPtr;
 
-    auto *popTree = new populatetree();
-    popTree->readDict(sharedData->filePath[DICTSRCFILEINDEX])
+    auto *popTree = new populatetree(*sharedData->dictRootNode);
+    popTree->readDict(sharedData->filePath[DICTSRCFILEINDEX]);
 
+    for (auto & i : popTree->dictionaryStore) {
+        int temp = popTree->add(i.c_str(), i.c_str());
+        if (temp == -1) {
+            cout << "failed to insert word" << endl;
+            exit(EXIT_FAILURE);
+        } else {
+            sharedData->numOfCharsProcessedFromFile[DICTSRCFILEINDEX] += temp;
+            sharedData->wordCountInFile[DICTSRCFILEINDEX]++;
+        }
+    }
+    sharedData->taskCompleted[DICTSRCFILEINDEX] = true;
     /* If we wanted to return something, we would return a pointer
      * to the data that we wanted to return.
      *
