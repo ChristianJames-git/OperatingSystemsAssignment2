@@ -1,8 +1,8 @@
 #include "populatetree.h"
 
-populatetree::populatetree(dictentry rootNode) {
+populatetree::populatetree(dictentry *rootNode) {
     root = rootNode;
-    prevNode = &root;
+    prevNode = root;
 }
 
 void populatetree::readDict(const char *dictFile) { //read in dictionary file to vector and call populateTree
@@ -43,7 +43,7 @@ int populatetree::add(const char *remainingChars, const char *wordBeingInserted)
     prevNode = prevNode->next[nextIndex]; //increment prevNode
     if (*remainingChars == '\0') { //check if end of word
         prevNode->isWord = true;
-        prevNode = &root;
+        prevNode = root;
         return 2;
     } else { //recurse with next char
         return 1 + add(remainingChars, wordBeingInserted);

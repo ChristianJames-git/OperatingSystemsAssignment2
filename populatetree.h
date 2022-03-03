@@ -6,7 +6,7 @@
 
 class populatetree {
 public:
-    explicit populatetree(dictentry);
+    explicit populatetree(dictentry*);
     void readDict(const char *dictionaryFile);
     int add(const char *, const char *);
     vector<string> dictionaryStore;
@@ -16,6 +16,6 @@ private:
     void closeIn();
     static int ASCIItoIndex(char);
     dictentry *prevNode; //temp node
-    dictentry root;
+    dictentry *root;
 };
 #endif //OPERATINGSYSTEMSASSIGNMENT2_POPULATETREE_H

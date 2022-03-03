@@ -2,6 +2,7 @@
 #include "populatetree.h"
 #include "countwords.h"
 #include <pthread.h>
+#include <cstring>
 
 extern "C" void * populateTreeThread( void * VoidPtr )
 {
@@ -11,7 +12,7 @@ extern "C" void * populateTreeThread( void * VoidPtr )
 
     }
 
-    auto *popTree = new populatetree(*sharedData->dictRootNode);
+    auto *popTree = new populatetree(sharedData->dictRootNode);
     popTree->readDict(sharedData->filePath[DICTSRCFILEINDEX]);
 
     for (auto & i : popTree->dictionaryStore) {
@@ -34,6 +35,7 @@ extern "C" void * populateTreeThread( void * VoidPtr )
     pthread_exit(sharedData);
     return nullptr;
 }
+
 extern "C" void * countWordsThread( void * VoidPtr )
 {
     EXEC_STATUS *sharedData;
@@ -108,11 +110,12 @@ int main(int argc, char **argv) {
     auto *sharedData = new EXEC_STATUS(p, h, n, filenames);
 
     pthread_attr_t pthread_attributes;
-    pthread_t populatetree, countwords;
+    pthread_t populatetreethread, countwordsthread;
 
     pthread_attr_init(&pthread_attributes);
-    pthread_create(&populatetree, &pthread_attributes, &populateTreeThread, sharedData);
-    pthread_create(&countwords, &pthread_attributes, &countWordsThread, sharedData);
+
+    pthread_create(&populatetreethread, &pthread_attributes, &populateTreeThread, sharedData);
+    pthread_create(&countwordsthread, &pthread_attributes, &countWordsThread, sharedData);
 
     long currProgressMarks = 0, maxProgressMarks;
     char toOutput;

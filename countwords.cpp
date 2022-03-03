@@ -18,10 +18,12 @@ void countwords::readWords(const char *wordsFile) { //reads in each line of word
 void countwords::searchCount(const string& str, int minInstances) { //uses helper methods and outputs count
     dictentry *temp = findEndingNodeOfAStr(str.c_str(), str.c_str()); //find end of string
     int count = 0;
-    if (temp != nullptr)
+    if (temp != nullptr) {
         countWordsStartingFromANode(temp, count); //count words that start with string
-    if (count >= minInstances)
+    }
+    if (count >= minInstances) {
         outStream << str << " " << count << endl; //output
+    }
 }
 
 dictentry *countwords::findEndingNodeOfAStr(const char *remainingStr, const char *strBeingSearched) { //finds node at end of string or null if not in the dictionary
