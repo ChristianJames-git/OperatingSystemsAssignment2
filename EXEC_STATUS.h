@@ -21,9 +21,11 @@
 writing to the output */
 #define DEFAULT_MINNUM_OFWORDS_WITHAPREFIX  1
 
-class EXEC_STATUS {
-public:
-    EXEC_STATUS(int, int, int, const char*[]);
+//class EXEC_STATUS {
+//public:
+    //EXEC_STATUS(int, int, int, const char*[]);
+    struct EXEC_STATUS {
+        EXEC_STATUS(int, int, int, const char*[]);
     /**
     * root node of the dictionary tree
     */
@@ -32,17 +34,17 @@ public:
     /**
      * parameters for printing progress bar
      */
-    int numOfProgressMarks;
+    int numOfProgressMarks{};
 
 
-    int hashmarkInterval;
+    int hashmarkInterval{};
 
     /**
      * print a word and its count to the output file only if the
      * number of dictionary words starting from the word is equal to or
      * greater than this number
      */
-    int minNumOfWordsWithAPrefixForPrinting;
+    int minNumOfWordsWithAPrefixForPrinting{};
 
     /**
      * filePath[0] - file path for the dictionary vocabulary file

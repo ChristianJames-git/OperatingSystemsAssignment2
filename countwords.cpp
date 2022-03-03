@@ -1,39 +1,31 @@
 #include "countwords.h"
 
-void countwords::threadMain(void * VoidPtr) {
+void countwords::threadMain(void * VoidPtr) { //thread controller
     EXEC_STATUS *sharedData;
     sharedData = (EXEC_STATUS *) VoidPtr;
 
-    while (!sharedData->taskCompleted[DICTSRCFILEINDEX]) {
+    while (!sharedData->taskCompleted[DICTSRCFILEINDEX]) { //wait for populate tree to finish
 
     }
 
     root = *sharedData->dictRootNode;
     prevNode = &root;
-    readWords(sharedData->filePath[TESTFILEINDEX]);
+    readWords(sharedData->filePath[TESTFILEINDEX]); //read file into vector
 
-    for (auto & i : testfileStore) {
-        *sharedData->numOfCharsProcessedFromFile[TESTFILEINDEX] += (long)(i.length() + 1);
+    for (auto & i : testfileStore) { //loop through vector
+        *sharedData->numOfCharsProcessedFromFile[TESTFILEINDEX] += (long)(i.length() + 1); //add length of line+1 to chars processed
         int temp = 0;
         char *word = strtok((char *)i.c_str(), delimiters); //separate first word by using delimiters
         while (word != nullptr) { //loop through each word in line
             temp++;
-            searchCount(word, sharedData->minNumOfWordsWithAPrefixForPrinting);
+            searchCount(word, sharedData->minNumOfWordsWithAPrefixForPrinting); //search and print each word
             word = strtok(NULL, delimiters); //next word
         }
-        sharedData->wordCountInFile[TESTFILEINDEX] += temp;
+        sharedData->wordCountInFile[TESTFILEINDEX] += temp; //increment word count by number of words in the line
     }
     closeOut();
 
-    sharedData->taskCompleted[TESTFILEINDEX] = true;
-
-    /* If we wanted to return something, we would return a pointer
-     * to the data that we wanted to return.
-     *
-     * Instead of simply using return, we could also call
-     * pthread_exit.
-     */
-    pthread_exit(sharedData);
+    sharedData->taskCompleted[TESTFILEINDEX] = true; //set task as complete
 }
 
 void countwords::readWords(const char *wordsFile) { //reads in each line of words, splits into words and calls searchCount on each word
@@ -83,7 +75,7 @@ void countwords::countWordsStartingFromANode(dictentry *currNode, int &count) { 
 void countwords::openFile(const char *file) { //open file helper method
     inStream.open(file);
     if (!inStream.is_open()) { //check if file was opened successfully
-        cout << "file not found" << endl;
+        cout << "Unable to open <<" << file << ">>" << endl;
         exit(EXIT_FAILURE);
     }
 }
@@ -97,7 +89,7 @@ void countwords::closeIn() { //close file helper method
     }
 }
 
-void countwords::openOut() {
+void countwords::openOut() { //open output helper method
     outStream.open("countwords_output.txt");
     if (!outStream.is_open()) {
         cout << "output not created" << endl;
@@ -105,7 +97,7 @@ void countwords::openOut() {
     }
 }
 
-void countwords::closeOut() {
+void countwords::closeOut() { //close output helper method
     if (outStream.is_open())
         outStream.close();
     else {

@@ -1,34 +1,24 @@
 #include "populatetree.h"
 
-void populatetree::threadMain(void * VoidPtr) {
+void populatetree::threadMain(void * VoidPtr) { //thread controller
     EXEC_STATUS *sharedData;
     sharedData = (EXEC_STATUS *) VoidPtr;
-    while (sharedData->numOfCharsProcessedFromFile[DICTSRCFILEINDEX] == nullptr) {
-
-    }
 
     root = sharedData->dictRootNode;
     prevNode = root;
-    readDict(sharedData->filePath[DICTSRCFILEINDEX]);
+    readDict(sharedData->filePath[DICTSRCFILEINDEX]); //read in dictionary words to vector
 
-    for (auto & i : dictionaryStore) {
-        long temp = add(i.c_str(), i.c_str());
+    for (auto & i : dictionaryStore) { //loop through vector
+        long temp = add(i.c_str(), i.c_str()); //Add words to dictionary
         if (temp == -1) {
-            cout << "failed to insert word" << endl;
+            cout << "failed to insert word" << endl; //handles not accepted characters
             exit(EXIT_FAILURE);
         } else {
-            *sharedData->numOfCharsProcessedFromFile[DICTSRCFILEINDEX] += temp;
-            sharedData->wordCountInFile[DICTSRCFILEINDEX]++;
+            *sharedData->numOfCharsProcessedFromFile[DICTSRCFILEINDEX] += temp; //increment chars processed
+            sharedData->wordCountInFile[DICTSRCFILEINDEX]++; //increment word count
         }
     }
-    sharedData->taskCompleted[DICTSRCFILEINDEX] = true;
-    /* If we wanted to return something, we would return a pointer
-     * to the data that we wanted to return.
-     *
-     * Instead of simply using return, we could also call
-     * pthread_exit.
-     */
-    pthread_exit(sharedData);
+    sharedData->taskCompleted[DICTSRCFILEINDEX] = true; //set task as complete
 }
 
 void populatetree::readDict(const char *dictFile) { //read in dictionary file to vector and call populateTree
@@ -47,7 +37,7 @@ void populatetree::readDict(const char *dictFile) { //read in dictionary file to
 void populatetree::openFile(const char *file) { //open file helper method
     inStream.open(file);
     if (!inStream.is_open()) { //check if file was opened successfully
-        cout << "file not found" << endl;
+        cout << "Unable to open <<" << file << ">>" << endl;
         exit(EXIT_FAILURE);
     }
 }
@@ -63,6 +53,8 @@ void populatetree::closeIn() { //close file helper method
 
 int populatetree::add(const char *remainingChars, const char *wordBeingInserted) { //adds word to dictionary tree
     int nextIndex = ASCIItoIndex(remainingChars++[0]); //convert current char to ASCII and increment to next char
+    if (nextIndex < 0 || nextIndex > 26)
+        return -1;
     if (prevNode->next[nextIndex] == nullptr) { //create new node if missing
         prevNode->next[nextIndex] = new dictentry();
     }
@@ -70,9 +62,9 @@ int populatetree::add(const char *remainingChars, const char *wordBeingInserted)
     if (*remainingChars == '\0') { //check if end of word
         prevNode->isWord = true;
         prevNode = root;
-        return 2;
+        return 2; //add 1 for first letter and 1 for the extra per line
     } else { //recurse with next char
-        return 1 + add(remainingChars, wordBeingInserted);
+        return 1 + add(remainingChars, wordBeingInserted); //add 1 for each char
     }
 }
 
