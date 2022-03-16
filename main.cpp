@@ -1,3 +1,7 @@
+/*
+ * Christian James
+ * 823672623
+ */
 #include <getopt.h>
 #include "populatetree.h"
 #include "countwords.h"

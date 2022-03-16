@@ -1,3 +1,7 @@
+/*
+ * Christian James
+ * 823672623
+ */
 #include "EXEC_STATUS.h"
 #include "dictentry.h"
 #include <cstring>

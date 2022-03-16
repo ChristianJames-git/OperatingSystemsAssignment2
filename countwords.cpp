@@ -1,3 +1,7 @@
+/*
+ * Christian James
+ * 823672623
+ */
 #include "countwords.h"
 
 void countwords::threadMain(void * VoidPtr) { //thread controller

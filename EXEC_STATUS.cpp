@@ -1,3 +1,7 @@
+/*
+ * Christian James
+ * 823672623
+ */
 #include "EXEC_STATUS.h"
 
 EXEC_STATUS::EXEC_STATUS(int marks, int hInterval, int minWords, const char* filenames[]) {

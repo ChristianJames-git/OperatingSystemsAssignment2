@@ -1,3 +1,5 @@
+# Christian James 823672623
+
 # CXX Make variable for compiler
 CXX=g++
 # Make variable for compiler options
@@ -11,6 +13,7 @@ CXXFLAGS=-std=c++11 -g -pthread
 
 # First target is the one executed if you just type make
 # make target specifies a specific target
+
 # $^ is an example of a special variable.  It substitutes all dependencies
 dicttest : main.o populatetree.o countwords.o dictentry.o EXEC_STATUS.o
 	$(CXX) $(CXXFLAGS) -o dicttest $^

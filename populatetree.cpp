@@ -1,3 +1,7 @@
+/*
+ * Christian James
+ * 823672623
+ */
 #include "populatetree.h"
 
 void populatetree::threadMain(void * VoidPtr) { //thread controller
